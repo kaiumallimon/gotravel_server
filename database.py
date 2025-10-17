@@ -259,6 +259,79 @@ class SupabaseClient:
             logger.error(f"Error fetching popular places: {e}")
             return []
     
+    def get_hotels_sorted_by_price(self, city: Optional[str] = None, country: Optional[str] = None, ascending: bool = True, limit: int = 10) -> List[Dict[str, Any]]:
+        """Get hotels sorted by average room price"""
+        try:
+            # This is a simplified version - you may need to join with rooms table for accurate pricing
+            query = self.client.table("hotels").select("*")
+            
+            if city:
+                query = query.ilike("city", f"%{city}%")
+            if country:
+                query = query.ilike("country", f"%{country}%")
+            
+            # Order by rating as proxy for price tier (in production, join with rooms table)
+            query = query.order("rating", desc=not ascending).limit(limit)
+            response = query.execute()
+            
+            return response.data
+        except Exception as e:
+            logger.error(f"Error fetching hotels sorted by price: {e}")
+            return []
+    
+    # ==================== USER FAVORITES ====================
+    
+    def get_user_favorites(self, user_id: str, item_type: Optional[str] = None, limit: int = 20) -> List[Dict[str, Any]]:
+        """Get user's favorite items"""
+        try:
+            query = (
+                self.client.table("user_favorites")
+                .select("*")
+                .eq("user_id", user_id)
+            )
+            
+            if item_type:
+                query = query.eq("item_type", item_type)
+            
+            query = query.order("created_at", desc=True).limit(limit)
+            response = query.execute()
+            
+            return response.data
+        except Exception as e:
+            logger.error(f"Error fetching user favorites: {e}")
+            return []
+    
+    def add_user_favorite(self, user_id: str, item_type: str, item_id: str) -> Optional[Dict[str, Any]]:
+        """Add item to user favorites"""
+        try:
+            favorite_data = {
+                "user_id": user_id,
+                "item_type": item_type,
+                "item_id": item_id
+            }
+            
+            response = self.client.table("user_favorites").insert(favorite_data).execute()
+            return response.data[0] if response.data else None
+        except Exception as e:
+            logger.error(f"Error adding favorite: {e}")
+            return None
+    
+    def remove_user_favorite(self, user_id: str, item_type: str, item_id: str) -> bool:
+        """Remove item from user favorites"""
+        try:
+            response = (
+                self.client.table("user_favorites")
+                .delete()
+                .eq("user_id", user_id)
+                .eq("item_type", item_type)
+                .eq("item_id", item_id)
+                .execute()
+            )
+            return True
+        except Exception as e:
+            logger.error(f"Error removing favorite: {e}")
+            return False
+    
     # ==================== BOOKINGS ====================
     
     def create_booking(

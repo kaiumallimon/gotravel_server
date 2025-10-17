@@ -414,6 +414,128 @@ def get_popular_places() -> str:
         return json.dumps({"success": False, "error": str(e)})
 
 
+# ==================== HOTEL PRICE SORTING ====================
+
+@tool
+def get_hotels_by_price(
+    city: Optional[str] = None,
+    country: Optional[str] = None,
+    sort_order: str = "low_to_high"
+) -> str:
+    """
+    Get hotels sorted by price.
+    
+    Use this tool when users ask about:
+    - Hotels sorted by price
+    - Cheapest to most expensive hotels
+    - Budget hotels to luxury hotels
+    - Hotel price comparison
+    
+    Args:
+        city: City name to filter hotels (e.g., "Dhaka")
+        country: Country name to filter hotels (e.g., "Bangladesh")
+        sort_order: Sort order - "low_to_high" for cheapest first, "high_to_low" for most expensive first
+    
+    Returns:
+        JSON string with list of hotels sorted by price
+    """
+    try:
+        ascending = sort_order.lower() == "low_to_high"
+        hotels = supabase_client.get_hotels_sorted_by_price(
+            city=city,
+            country=country,
+            ascending=ascending,
+            limit=10
+        )
+        
+        if not hotels:
+            return json.dumps({
+                "success": False,
+                "message": f"No hotels found",
+                "data": []
+            })
+        
+        formatted_hotels = []
+        for hotel in hotels:
+            formatted_hotels.append({
+                "id": hotel.get("id"),
+                "name": hotel.get("name"),
+                "city": hotel.get("city"),
+                "country": hotel.get("country"),
+                "address": hotel.get("address"),
+                "rating": hotel.get("rating"),
+                "reviews_count": hotel.get("reviews_count"),
+                "phone": hotel.get("phone"),
+                "email": hotel.get("contact_email"),
+                "description": hotel.get("description", "")[:200] + "..." if hotel.get("description") else ""
+            })
+        
+        return json.dumps({
+            "success": True,
+            "sort_order": sort_order,
+            "count": len(formatted_hotels),
+            "data": formatted_hotels
+        }, indent=2)
+    except Exception as e:
+        logger.error(f"Error in get_hotels_by_price tool: {e}")
+        return json.dumps({"success": False, "error": str(e)})
+
+
+# ==================== USER FAVORITES ====================
+
+@tool
+def get_user_favorites(user_id: str, item_type: Optional[str] = None) -> str:
+    """
+    Get user's favorite items (hotels, packages, or places).
+    
+    Use this tool when users ask about:
+    - Their favorites
+    - Saved items
+    - Bookmarked hotels/packages/places
+    - "What are my favorites?"
+    - "Show my saved packages"
+    
+    Args:
+        user_id: The user's ID
+        item_type: Optional filter - "hotel", "package", or "place"
+    
+    Returns:
+        JSON string with list of user's favorite items
+    """
+    try:
+        favorites = supabase_client.get_user_favorites(
+            user_id=user_id,
+            item_type=item_type,
+            limit=20
+        )
+        
+        if not favorites:
+            return json.dumps({
+                "success": False,
+                "message": "No favorites found",
+                "data": []
+            })
+        
+        formatted_favorites = []
+        for fav in favorites:
+            formatted_favorites.append({
+                "id": fav.get("id"),
+                "item_type": fav.get("item_type"),
+                "item_id": fav.get("item_id"),
+                "created_at": fav.get("created_at")
+            })
+        
+        return json.dumps({
+            "success": True,
+            "count": len(formatted_favorites),
+            "data": formatted_favorites,
+            "message": f"Found {len(formatted_favorites)} favorite items"
+        }, indent=2)
+    except Exception as e:
+        logger.error(f"Error in get_user_favorites tool: {e}")
+        return json.dumps({"success": False, "error": str(e)})
+
+
 # ==================== WEATHER TOOL ====================
 
 @tool
@@ -586,11 +708,13 @@ def create_booking(
 tools = [
     search_hotels,
     get_hotel_rooms,
+    get_hotels_by_price,
     search_packages,
     get_cheapest_packages,
     get_packages_by_price,
     search_places,
     get_popular_places,
+    get_user_favorites,
     get_weather,
     create_booking
 ]
