@@ -1,0 +1,50 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.venv/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+gotravel_backend.log
+
+# Testing
+.pytest_cache/
+test.py
+
+# Environment
+.env.local
+.env.development
+.env.test
+
+# Database
+*.db
+*.sqlite
+
+# Docker
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Scripts
+start.sh
+start.bat
+
+# Git
+.git/
+.gitignore
+
+# Documentation
+README.md
