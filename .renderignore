@@ -16,35 +16,38 @@ ENV/
 *.swo
 *~
 
-# Logs
-*.log
-gotravel_backend.log
+# Git
+.git/
+.gitignore
 
 # Testing
 .pytest_cache/
-test.py
 
-# Environment
+# Environment (use Render's env vars instead)
+.env
 .env.local
 .env.development
 .env.test
+
+# Documentation
+DEPLOYMENT.md
+RENDER_DEPLOYMENT.md
+README.md
+
+# Vercel specific
+vercel.json
+.vercelignore
+api/
+
+# Logs
+*.log
+gotravel_backend.log
 
 # Database
 *.db
 *.sqlite
 
-# Docker
+# Docker (if not using)
 Dockerfile
 docker-compose.yml
 .dockerignore
-
-# Scripts
-start.sh
-start.bat
-
-# Git
-.git/
-.gitignore
-
-# Documentation
-README.md

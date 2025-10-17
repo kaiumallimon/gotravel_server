@@ -1,0 +1,42 @@
+# Render Configuration File
+# https://render.com/docs/yaml-spec
+
+services:
+  # Web Service - FastAPI Application
+  - type: web
+    name: gotravel-ai-backend
+    env: python
+    runtime: python
+    plan: free  # Change to 'starter' or 'standard' for production
+    region: oregon  # Change to your preferred region
+    buildCommand: chmod +x build.sh && ./build.sh
+    startCommand: chmod +x start_render.sh && ./start_render.sh
+    healthCheckPath: /api/health
+    autoDeploy: true
+    
+    # Environment Variables
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
+      - key: PYTHONPATH
+        value: .
+      - key: PORT
+        generateValue: true
+      
+      # Add these in Render Dashboard (Secret)
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_KEY
+        sync: false
+      - key: GOOGLE_API_KEY
+        sync: false
+      - key: OPENWEATHER_API_KEY
+        sync: false
+      - key: DEBUG
+        value: false
+      - key: MODEL_NAME
+        value: gemini-2.0-flash
+      - key: TEMPERATURE
+        value: 0.7
+      - key: MAX_TOKENS
+        value: 2048
