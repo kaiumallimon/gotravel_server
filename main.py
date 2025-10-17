@@ -11,8 +11,8 @@ import logging
 import sys
 from datetime import datetime
 
-from config import settings, validate_settings
-from routes import router
+from src.config import settings, validate_settings
+from src.routes import router
 
 # Configure logging
 logging.basicConfig(

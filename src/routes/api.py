@@ -3,16 +3,16 @@ FastAPI Routes
 API endpoints for the GoTravel AI Backend
 """
 from fastapi import APIRouter, HTTPException, status
-from models import (
+from src.models import (
     ChatRequest, ChatResponse, ChatErrorResponse,
     SessionInfoRequest, SessionInfoResponse,
     ClearHistoryRequest, ClearHistoryResponse,
     HealthCheckResponse,
     CreateBookingRequest, BookingResponse
 )
-from agent import travel_agent
-from database import supabase_client
-from config import settings
+from src.services.agent import travel_agent
+from src.services.database import supabase_client
+from src.config import settings
 import logging
 from datetime import datetime
 import uuid

@@ -4,7 +4,7 @@ Handles all database operations for the GoTravel AI Backend
 """
 from typing import List, Dict, Any, Optional
 from supabase import create_client, Client
-from config import settings
+from src.config import settings
 import logging
 
 logger = logging.getLogger(__name__)

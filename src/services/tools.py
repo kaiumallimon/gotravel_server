@@ -4,8 +4,8 @@ Defines all tools that the AI agent can use to fetch data and perform actions
 """
 from typing import Optional, List, Dict, Any
 from langchain.tools import tool
-from database import supabase_client
-from config import settings
+from src.services.database import supabase_client
+from src.config import settings
 import httpx
 import json
 import logging

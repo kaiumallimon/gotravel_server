@@ -9,8 +9,8 @@ from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.messages import HumanMessage, AIMessage, SystemMessage
 from langchain_core.chat_history import BaseChatMessageHistory, InMemoryChatMessageHistory
 from langchain_core.runnables.history import RunnableWithMessageHistory
-from config import settings
-from tools import tools
+from src.config import settings
+from src.services.tools import tools
 import logging
 
 logger = logging.getLogger(__name__)
