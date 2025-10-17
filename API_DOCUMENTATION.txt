@@ -1,0 +1,581 @@
+================================================================================
+                    GoTravel AI Backend - API Documentation
+================================================================================
+
+BASE URL (Update after hosting):
+    BASE_URL = "https://your-app.onrender.com"
+    
+    Example URLs:
+    - Render: https://gotravel-ai-backend.onrender.com
+    - Custom Domain: https://api.gotravel.com
+
+================================================================================
+                            TABLE OF CONTENTS
+================================================================================
+
+1. Authentication
+2. Health Check Endpoint
+3. Chat Endpoint
+4. Session Management
+5. Booking Endpoint
+6. Error Responses
+
+================================================================================
+                            1. AUTHENTICATION
+================================================================================
+
+Currently, no authentication is required. 
+For production, implement API keys or JWT tokens.
+
+Headers (optional for future):
+    Authorization: Bearer YOUR_API_KEY
+    Content-Type: application/json
+
+================================================================================
+                        2. HEALTH CHECK ENDPOINT
+================================================================================
+
+GET {BASE_URL}/api/health
+
+Description:
+    Check the health status of the API and its dependencies.
+
+Request:
+    GET https://your-app.onrender.com/api/health
+
+Response (200 OK):
+    {
+        "status": "healthy",
+        "timestamp": "2025-10-18T10:30:00.123456",
+        "version": "1.0.0",
+        "services": {
+            "database": "connected",
+            "ai_model": "ready",
+            "weather_api": "configured"
+        }
+    }
+
+Response (503 Service Unavailable):
+    {
+        "status": "degraded",
+        "timestamp": "2025-10-18T10:30:00.123456",
+        "version": "1.0.0",
+        "services": {
+            "database": "error",
+            "ai_model": "ready",
+            "weather_api": "not_configured"
+        }
+    }
+
+cURL Example:
+    curl -X GET "https://your-app.onrender.com/api/health"
+
+================================================================================
+                            3. CHAT ENDPOINT
+================================================================================
+
+POST {BASE_URL}/api/chat
+
+Description:
+    Send a message to the AI travel assistant and receive a response.
+    The AI can help with hotel searches, package discovery, weather info,
+    tourist places, and bookings.
+
+Request Headers:
+    Content-Type: application/json
+
+Request Body:
+    {
+        "message": "string (required, 1-2000 characters)",
+        "session_id": "string (optional, for conversation continuity)",
+        "user_id": "string (optional, user identifier)"
+    }
+
+--------------------------------------------------------------------------------
+Example 1: Hotel Search
+--------------------------------------------------------------------------------
+
+Request:
+    POST https://your-app.onrender.com/api/chat
+    Content-Type: application/json
+
+    {
+        "message": "Show me luxury hotels in Dhaka",
+        "session_id": "user123_session",
+        "user_id": "user123"
+    }
+
+Response (200 OK):
+    {
+        "success": true,
+        "response": "I found several luxury hotels in Dhaka for you:\n\n1. **Radisson Blu Dhaka Water Garden** 🏨\n   📍 Dhaka, Bangladesh\n   ⭐ Rating: 4.5/5.0\n   ✨ A premium hotel with excellent amenities\n\n2. **Pan Pacific Sonargaon Dhaka** 🏨\n   📍 Dhaka, Bangladesh\n   ⭐ Rating: 4.3/5.0\n   ✨ Located in the diplomatic zone\n\nWould you like to know more about any of these hotels or see room options?",
+        "session_id": "user123_session",
+        "tools_used": [
+            {
+                "tool": "search_hotels",
+                "input": {
+                    "city": "Dhaka",
+                    "country": "Bangladesh"
+                }
+            }
+        ],
+        "message_count": 2,
+        "timestamp": "2025-10-18T10:30:00.123456"
+    }
+
+cURL Example:
+    curl -X POST "https://your-app.onrender.com/api/chat" \
+         -H "Content-Type: application/json" \
+         -d '{
+               "message": "Show me luxury hotels in Dhaka",
+               "session_id": "user123_session"
+             }'
+
+--------------------------------------------------------------------------------
+Example 2: Package Search
+--------------------------------------------------------------------------------
+
+Request:
+    POST https://your-app.onrender.com/api/chat
+    
+    {
+        "message": "What are the cheapest travel packages?",
+        "session_id": "user456_session"
+    }
+
+Response (200 OK):
+    {
+        "success": true,
+        "response": "Here are the most affordable travel packages available:\n\n1. **Cox's Bazar Beach Getaway** 🌴\n   📍 Cox's Bazar, Bangladesh\n   ⏱️ 3 days\n   💰 BDT 5,000 per person\n   ✨ Includes accommodation and breakfast\n\n2. **Sundarbans Adventure Tour** 🚤\n   📍 Sundarbans, Bangladesh\n   ⏱️ 2 days\n   💰 BDT 6,500 per person\n   ✨ Includes guided tour and meals\n\nThese are great budget-friendly options! Would you like more details?",
+        "session_id": "user456_session",
+        "tools_used": [
+            {
+                "tool": "get_cheapest_packages",
+                "input": {}
+            }
+        ],
+        "message_count": 2,
+        "timestamp": "2025-10-18T10:35:00.123456"
+    }
+
+--------------------------------------------------------------------------------
+Example 3: Weather Information
+--------------------------------------------------------------------------------
+
+Request:
+    POST https://your-app.onrender.com/api/chat
+    
+    {
+        "message": "What's the weather in Cox's Bazar?",
+        "session_id": "user789_session"
+    }
+
+Response (200 OK):
+    {
+        "success": true,
+        "response": "Here's the current weather in Cox's Bazar:\n\n🌤️ **Current Conditions**\n🌡️ Temperature: 28°C (feels like 30°C)\n💧 Humidity: 75%\n🌬️ Wind Speed: 12 km/h\n☁️ Conditions: Partly cloudy\n\nIt's a pleasant day for the beach! 🏖️",
+        "session_id": "user789_session",
+        "tools_used": [
+            {
+                "tool": "get_weather",
+                "input": {
+                    "city": "Cox's Bazar"
+                }
+            }
+        ],
+        "message_count": 2,
+        "timestamp": "2025-10-18T10:40:00.123456"
+    }
+
+--------------------------------------------------------------------------------
+Example 4: Tourist Places
+--------------------------------------------------------------------------------
+
+Request:
+    POST https://your-app.onrender.com/api/chat
+    
+    {
+        "message": "Show me popular tourist places in Bangladesh",
+        "session_id": "user999_session"
+    }
+
+Response (200 OK):
+    {
+        "success": true,
+        "response": "Here are the most popular tourist destinations in Bangladesh:\n\n1. **Cox's Bazar** 🏖️\n   📍 Chittagong Division\n   🏷️ Beach\n   ⭐ World's longest natural sea beach\n\n2. **Sundarbans** 🌳\n   📍 Khulna Division\n   🏷️ Nature Reserve\n   ⭐ UNESCO World Heritage Site, home to Royal Bengal Tigers\n\n3. **Sajek Valley** ⛰️\n   📍 Rangamati Hill District\n   🏷️ Mountain\n   ⭐ Known as 'Queen of Hills'\n\nWould you like to explore packages to any of these destinations?",
+        "session_id": "user999_session",
+        "tools_used": [
+            {
+                "tool": "get_popular_places",
+                "input": {}
+            }
+        ],
+        "message_count": 2,
+        "timestamp": "2025-10-18T10:45:00.123456"
+    }
+
+--------------------------------------------------------------------------------
+Error Response (500 Internal Server Error):
+--------------------------------------------------------------------------------
+
+Response:
+    {
+        "success": false,
+        "error": "Failed to process message",
+        "session_id": "user123_session",
+        "timestamp": "2025-10-18T10:30:00.123456"
+    }
+
+Error Response (422 Validation Error):
+    {
+        "success": false,
+        "error": "Validation error",
+        "detail": [
+            {
+                "loc": ["body", "message"],
+                "msg": "field required",
+                "type": "value_error.missing"
+            }
+        ],
+        "timestamp": "2025-10-18T10:30:00.123456"
+    }
+
+================================================================================
+                        4. SESSION MANAGEMENT
+================================================================================
+
+--------------------------------------------------------------------------------
+4.1. Get Session Info
+--------------------------------------------------------------------------------
+
+POST {BASE_URL}/api/session/info
+
+Description:
+    Get information about a specific chat session.
+
+Request:
+    POST https://your-app.onrender.com/api/session/info
+    Content-Type: application/json
+    
+    {
+        "session_id": "user123_session"
+    }
+
+Response (200 OK):
+    {
+        "exists": true,
+        "session_id": "user123_session",
+        "message_count": 5
+    }
+
+Response (Session Not Found):
+    {
+        "exists": false,
+        "session_id": "nonexistent_session",
+        "message_count": 0
+    }
+
+cURL Example:
+    curl -X POST "https://your-app.onrender.com/api/session/info" \
+         -H "Content-Type: application/json" \
+         -d '{"session_id": "user123_session"}'
+
+--------------------------------------------------------------------------------
+4.2. Clear Session History
+--------------------------------------------------------------------------------
+
+POST {BASE_URL}/api/session/clear
+
+Description:
+    Clear chat history for a specific session.
+
+Request:
+    POST https://your-app.onrender.com/api/session/clear
+    Content-Type: application/json
+    
+    {
+        "session_id": "user123_session"
+    }
+
+Response (200 OK):
+    {
+        "success": true,
+        "session_id": "user123_session",
+        "message": "Chat history cleared successfully"
+    }
+
+Response (Session Not Found):
+    {
+        "success": false,
+        "session_id": "nonexistent_session",
+        "message": "Session not found"
+    }
+
+cURL Example:
+    curl -X POST "https://your-app.onrender.com/api/session/clear" \
+         -H "Content-Type: application/json" \
+         -d '{"session_id": "user123_session"}'
+
+================================================================================
+                            5. BOOKING ENDPOINT
+================================================================================
+
+POST {BASE_URL}/api/booking
+
+Description:
+    Create a booking for a package or hotel directly without using chat.
+
+Request Headers:
+    Content-Type: application/json
+
+Request Body:
+    {
+        "booking_type": "string (required: 'package' or 'hotel')",
+        "item_id": "string (required: package_id or hotel_id)",
+        "guest_name": "string (required: 2-255 characters)",
+        "guest_email": "string (required: valid email)",
+        "guest_phone": "string (required: 10-20 characters)",
+        "total_participants": "integer (optional: 1-50, default: 1)",
+        "user_id": "string (optional)"
+    }
+
+--------------------------------------------------------------------------------
+Example: Package Booking
+--------------------------------------------------------------------------------
+
+Request:
+    POST https://your-app.onrender.com/api/booking
+    Content-Type: application/json
+    
+    {
+        "booking_type": "package",
+        "item_id": "550e8400-e29b-41d4-a716-446655440000",
+        "guest_name": "John Doe",
+        "guest_email": "john.doe@example.com",
+        "guest_phone": "+8801712345678",
+        "total_participants": 2,
+        "user_id": "user123"
+    }
+
+Response (200 OK):
+    {
+        "success": true,
+        "message": "Booking created successfully",
+        "booking_reference": "BK12345678",
+        "booking_type": "package",
+        "total_amount": 25000.0,
+        "currency": "BDT"
+    }
+
+cURL Example:
+    curl -X POST "https://your-app.onrender.com/api/booking" \
+         -H "Content-Type: application/json" \
+         -d '{
+               "booking_type": "package",
+               "item_id": "550e8400-e29b-41d4-a716-446655440000",
+               "guest_name": "John Doe",
+               "guest_email": "john.doe@example.com",
+               "guest_phone": "+8801712345678",
+               "total_participants": 2
+             }'
+
+--------------------------------------------------------------------------------
+Example: Hotel Booking
+--------------------------------------------------------------------------------
+
+Request:
+    POST https://your-app.onrender.com/api/booking
+    
+    {
+        "booking_type": "hotel",
+        "item_id": "abc12345-e29b-41d4-a716-446655440001",
+        "guest_name": "Jane Smith",
+        "guest_email": "jane.smith@example.com",
+        "guest_phone": "+8801898765432",
+        "total_participants": 1
+    }
+
+Response (200 OK):
+    {
+        "success": true,
+        "message": "Booking created successfully",
+        "booking_reference": "BK87654321",
+        "booking_type": "hotel",
+        "total_amount": 5000.0,
+        "currency": "BDT"
+    }
+
+Error Response (404 Not Found):
+    {
+        "success": false,
+        "message": "Package not found with ID: 550e8400-e29b-41d4-a716-446655440000"
+    }
+
+Error Response (400 Bad Request):
+    {
+        "success": false,
+        "message": "Invalid booking type. Must be 'package' or 'hotel'"
+    }
+
+================================================================================
+                            6. ERROR RESPONSES
+================================================================================
+
+All endpoints may return the following error responses:
+
+--------------------------------------------------------------------------------
+400 Bad Request
+--------------------------------------------------------------------------------
+    {
+        "success": false,
+        "error": "Invalid request",
+        "detail": "Specific error message"
+    }
+
+--------------------------------------------------------------------------------
+404 Not Found
+--------------------------------------------------------------------------------
+    {
+        "success": false,
+        "error": "Resource not found",
+        "detail": "The requested resource does not exist"
+    }
+
+--------------------------------------------------------------------------------
+422 Unprocessable Entity (Validation Error)
+--------------------------------------------------------------------------------
+    {
+        "success": false,
+        "error": "Validation error",
+        "detail": [
+            {
+                "loc": ["body", "field_name"],
+                "msg": "field required",
+                "type": "value_error.missing"
+            }
+        ],
+        "timestamp": "2025-10-18T10:30:00.123456"
+    }
+
+--------------------------------------------------------------------------------
+500 Internal Server Error
+--------------------------------------------------------------------------------
+    {
+        "success": false,
+        "error": "An internal server error occurred",
+        "detail": "Please try again later",
+        "timestamp": "2025-10-18T10:30:00.123456"
+    }
+
+================================================================================
+                        ADDITIONAL ENDPOINTS
+================================================================================
+
+GET {BASE_URL}/
+    Description: Root endpoint with basic API information
+    Response: JSON with service info and available endpoints
+
+GET {BASE_URL}/api/
+    Description: API information endpoint
+    Response: JSON with detailed API information and features
+
+GET {BASE_URL}/docs
+    Description: Interactive Swagger UI documentation
+    Response: HTML page with interactive API documentation
+
+GET {BASE_URL}/redoc
+    Description: ReDoc API documentation
+    Response: HTML page with clean API documentation
+
+GET {BASE_URL}/openapi.json
+    Description: OpenAPI specification
+    Response: JSON OpenAPI specification
+
+================================================================================
+                            RATE LIMITING
+================================================================================
+
+Currently no rate limiting is implemented.
+
+For production, consider implementing:
+    - Rate limit: 100 requests per minute per IP
+    - Burst limit: 20 requests per second
+    - Response header: X-RateLimit-Remaining
+
+================================================================================
+                        RESPONSE STATUS CODES
+================================================================================
+
+200 OK              - Request successful
+201 Created         - Resource created successfully
+400 Bad Request     - Invalid request parameters
+404 Not Found       - Resource not found
+422 Unprocessable   - Validation error
+500 Server Error    - Internal server error
+503 Unavailable     - Service temporarily unavailable
+
+================================================================================
+                            TESTING TIPS
+================================================================================
+
+1. Use Postman or Insomnia for testing
+2. Start with health check endpoint to verify API is running
+3. Test chat endpoint with simple queries first
+4. Use consistent session_id for conversation continuity
+5. Check response tools_used to understand AI behavior
+6. Monitor response times for performance issues
+
+================================================================================
+                            INTEGRATION EXAMPLES
+================================================================================
+
+Python (requests):
+    import requests
+    
+    BASE_URL = "https://your-app.onrender.com"
+    
+    response = requests.post(
+        f"{BASE_URL}/api/chat",
+        json={
+            "message": "Show me hotels in Dhaka",
+            "session_id": "test_session"
+        }
+    )
+    
+    data = response.json()
+    print(data["response"])
+
+JavaScript (fetch):
+    const BASE_URL = "https://your-app.onrender.com";
+    
+    fetch(`${BASE_URL}/api/chat`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            message: 'Show me hotels in Dhaka',
+            session_id: 'test_session'
+        })
+    })
+    .then(res => res.json())
+    .then(data => console.log(data.response));
+
+cURL (Command Line):
+    curl -X POST "https://your-app.onrender.com/api/chat" \
+         -H "Content-Type: application/json" \
+         -d '{"message":"Show me hotels in Dhaka","session_id":"test"}'
+
+================================================================================
+                            SUPPORT & RESOURCES
+================================================================================
+
+Documentation: Check README.md and RENDER_DEPLOYMENT.md
+Issues: Report on GitHub repository
+API Status: Check {BASE_URL}/api/health
+
+For questions or support, please open an issue on the GitHub repository.
+
+================================================================================
+                        VERSION: 1.0.0 | Last Updated: 2025-10-18
+================================================================================

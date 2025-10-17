@@ -1,1288 +1,460 @@
-# GoTravel AI Backend# GoTravel AI Backend - Complete Documentation# GoTravel AI Backend
+# 🌍 GoTravel AI Backend
 
+**Intelligent AI-Powered Travel Booking Assistant**
 
+A production-ready conversational AI system for travel and tourism, built with FastAPI, LangChain, Google Gemini, and Supabase. Natural language interface for hotel search, package discovery, weather information, and smart bookings.
 
-🌍 **Intelligent Travel Booking Assistant powered by AI**
-
-
-
-A conversational AI system for the travel industry using FastAPI, LangChain, Google Gemini, and Supabase.🌍 **Production-Grade AI Travel Booking Assistant**🌍 **Production-Grade AI Travel Booking Assistant**
-
-
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.115.0-009688.svg)](https://fastapi.tiangolo.com)
+[![Python](https://img.shields.io/badge/Python-3.11-3776AB.svg)](https://www.python.org)
+[![LangChain](https://img.shields.io/badge/LangChain-Latest-1C3C3C.svg)](https://langchain.com)
+[![Gemini](https://img.shields.io/badge/Google%20Gemini-2.0%20Flash-4285F4.svg)](https://ai.google.dev)
 
 ---
 
+## ✨ Features
 
+- 🤖 **Conversational AI** - Natural language chat interface powered by Google Gemini 2.0 Flash
+- 🏨 **Smart Hotel Search** - Find accommodations by location, rating, and price
+- ✈️ **Package Discovery** - Explore travel packages by destination, category, duration, and budget
+- 🗺️ **Tourist Recommendations** - Discover popular places and attractions
+- 🌤️ **Real-time Weather** - Get current weather information for any location
+- 📝 **Intelligent Bookings** - Create bookings through natural conversation
+- 🔄 **Session Management** - Maintains conversation context across multiple interactions
+- 🛠️ **Tool-Based Architecture** - Modular LangChain tools for flexible data fetching
 
-## 🏗️ System ArchitectureAn intelligent backend system that powers a conversational AI travel assistant using FastAPI, LangChain, Google Gemini, and Supabase.An intelligent backend system that powers a conversational AI travel assistant using FastAPI, LangChain, Google Gemini, and Supabase.
+---
 
-
+## 🏗️ System Architecture
 
 ```mermaid
-
-graph TD
-
-    A[User Request] --> B[FastAPI Server]---## 🚀 Features
-
-    B --> C[Request Validation & CORS]
-
-    C --> D[LangChain AI Agent]
-
-    D --> E[Google Gemini 2.0 Flash]
-
-    E --> F[Tool Selection]## Table of Contents- 🤖 **Intelligent Conversational AI** - Natural language processing using Google Gemini 2.0 Flash
-
-    F --> G{Which Tool?}
-
-    - 🏨 **Hotel Search & Booking** - Find and reserve accommodations
-
-    G -->|Hotel Search| H1[search_hotels]
-
-    G -->|Package Search| H2[search_packages]1. [Overview](#overview)- ✈️ **Travel Package Discovery** - Explore packages by destination, category, and price
-
-    G -->|Place Search| H3[search_places]
-
-    G -->|Weather| H4[get_weather]2. [Features](#features)- 🗺️ **Tourist Place Recommendations** - Discover attractions and destinations
-
-    G -->|Booking| H5[create_booking]
-
-    G -->|Favorites| H6[get_user_favorites]3. [Architecture](#architecture)- 🌤️ **Real-time Weather Information** - Get current weather for any location
-
-    G -->|Price Sorting| H7[get_*_by_price]
-
-    4. [Technology Stack](#technology-stack)- 📝 **Smart Booking System** - Create bookings through natural conversation
-
-    H1 --> I[Supabase Database]
-
-    H2 --> I5. [Project Structure](#project-structure)- 🔄 **Session Management** - Maintain conversation context across interactions
-
-    H3 --> I
-
-    H4 --> J[OpenWeatherMap API]6. [Setup & Installation](#setup--installation)- 🛠️ **Tool-Based Architecture** - Flexible LangChain tools for data fetching
-
-    H5 --> I
-
-    H6 --> I7. [Configuration](#configuration)
-
-    H7 --> I
-
-    8. [API Documentation](#api-documentation)## 🏗️ Architecture
-
-    I --> K[Data Processing]
-
-    J --> K9. [Usage Examples](#usage-examples)
-
-    K --> L[LLM Response Formatting]
-
-    L --> M[JSON Response]10. [Available Tools](#available-tools)```
-
-    M --> N[User]
-
-    11. [Database Schema](#database-schema)User Query → FastAPI → LangChain Agent → Tool Selection → Data Fetching → LLM Response Formatting → User
-
-    style A fill:#e1f5ff
-
-    style E fill:#fff3e012. [Deployment](#deployment)                         ↓
-
-    style I fill:#f3e5f5
-
-    style J fill:#e8f5e913. [Troubleshooting](#troubleshooting)                    Google Gemini 2.0 Flash
-
-    style N fill:#e1f5ff
-
-```14. [Quick Reference](#quick-reference)                         ↓
-
-
-
-### Architecture Layers15. [Contributing](#contributing)                    Tools (LangChain)
-
-
-
-**1. API Layer (FastAPI)**                    ├── search_hotels
-
-- Handles HTTP requests/responses
-
-- CORS middleware for cross-origin requests---                    ├── search_packages
-
-- Request validation using Pydantic models
-
-- Session management                    ├── search_places
-
-- Error handling and logging
-
-## Overview                    ├── get_weather
-
-**2. AI Agent Layer (LangChain)**
-
-- Conversation context management                    └── create_booking
-
-- Intent classification
-
-- Tool selection and orchestrationGoTravel AI Backend is a sophisticated conversational AI system designed specifically for the travel industry. It combines the power of Large Language Models with structured database queries to provide intelligent travel recommendations, hotel searches, package bookings, and weather information through natural language interactions.                         ↓
-
-- Response generation using Google Gemini
-
-- Multi-turn conversation support                    Supabase Database
-
-
-
-**3. Tool Layer (LangChain Tools)**### Key Capabilities```
-
-- Modular functions for specific tasks
-
-- Database query execution
-
-- External API integration
-
-- Data formatting and validation- 🤖 Natural language understanding using Google Gemini 2.0 Flash## 📦 Technology Stack
-
-
-
-**4. Data Layer (Supabase)**- 🏨 Intelligent hotel search with location filtering
-
-- PostgreSQL database
-
-- RESTful API auto-generated- ✈️ Travel package discovery by destination, category, and budget- **Framework**: FastAPI 0.109.0
-
-- Real-time subscriptions
-
-- Authentication ready- 🗺️ Tourist place recommendations with rich details- **AI/ML**: LangChain + Google Gemini 2.0 Flash
-
-
-
-**5. External Services**- 🌤️ Real-time weather information integration- **Database**: Supabase (PostgreSQL)
-
-- Google Gemini AI for natural language processing
-
-- OpenWeatherMap for weather data- 📝 Conversational booking system- **External APIs**: OpenWeatherMap
-
-
-
----- 🔄 Session-based conversation memory- **Python**: 3.9+
-
-
-
-## 🤖 What the Chatbot Can Do- 🛠️ Extensible tool-based architecture
-
-
-
-### 🏨 Hotel Operations## 📁 Project Structure
-
-
-
-- **Search hotels by location**---
-
-  - Example: *"Show me hotels in Dhaka"*
-
-  - Example: *"Find hotels in Cox's Bazar"*```
-
-
-
-- **Sort hotels by price**## Featuresgotravel-server/
-
-  - Example: *"Show me hotels in Dhaka sorted by price"*
-
-  - Example: *"Cheapest to most expensive hotels in Sylhet"*├── main.py              # FastAPI application entry point
-
-
-
-- **Get hotel room details**### Core Features├── config.py            # Configuration and environment variables
-
-  - Example: *"What rooms are available at Radisson Blu?"*
-
-  - Example: *"Show me room types and prices"*├── database.py          # Supabase client and database operations
-
-
-
-### ✈️ Travel Package Operations- **Intelligent Conversational AI** - Natural language processing using Google Gemini 2.0 Flash├── agent.py             # LangChain AI agent implementation
-
-
-
-- **Search packages by destination**- **Hotel Search & Booking** - Find and reserve accommodations by location and amenities├── tools.py             # LangChain tools for data fetching
-
-  - Example: *"Show me packages to Sylhet"*
-
-  - Example: *"Find travel packages in Bangladesh"*- **Travel Package Discovery** - Explore packages filtered by destination, category, price, and duration├── routes.py            # FastAPI route definitions
-
-
-
-- **Search packages by category**- **Tourist Place Recommendations** - Discover attractions, landmarks, and destinations├── models.py            # Pydantic models for requests/responses
-
-  - Example: *"Show me beach packages"*
-
-  - Example: *"Find adventure tours"*- **Real-time Weather Information** - Get current weather conditions for any location├── utils.py             # Utility functions
-
-
-
-- **Search packages by price**- **Smart Booking System** - Create bookings through natural conversation├── requirements.txt     # Python dependencies
-
-  - Example: *"Packages under 10000 BDT"*
-
-  - Example: *"Luxury packages between 15000 and 25000"*- **Session Management** - Maintain conversation context across multiple interactions├── .env.example         # Environment variables template
-
-
-
-- **Search packages by duration**- **Tool-Based Architecture** - Flexible LangChain tools for modular data fetching├── .gitignore          # Git ignore rules
-
-  - Example: *"Show me 3-day packages"*
-
-  - Example: *"Weekend tour packages"*└── supabase/           # Database migrations
-
-
-
-- **Get cheapest packages**### Advanced Features    └── migrations/
-
-  - Example: *"What are the cheapest packages?"*
-
-  - Example: *"Show me budget-friendly tours"*        ├── users.sql
-
-
-
-- **Sort packages by price**- Context-aware conversations with memory        ├── hotels.sql
-
-  - Example: *"Show all packages sorted by price"*
-
-  - Example: *"List packages from cheapest to most expensive"*- Multi-tool orchestration for complex queries        ├── packages.sql
-
-
-
-- **Get all packages in a country**- Structured output with JSON formatting        ├── places.sql
-
-  - Example: *"Show me all tour packages in Bangladesh"*
-
-  - Example: *"What travel packages do you have?"*- Error handling and graceful fallbacks        ├── bookings.sql
-
-
-
-### 🗺️ Tourist Places Operations- Request logging and monitoring        └── ...
-
-
-
-- **Search places by location**- CORS support for web applications```
-
-  - Example: *"Tourist places in Bangladesh"*
-
-  - Example: *"Show me places to visit in Dhaka"*- Interactive API documentation (Swagger/ReDoc)
-
-
-
-- **Search places by category**## 🛠️ Setup & Installation
-
-  - Example: *"Show me beaches in Bangladesh"*
-
-  - Example: *"Historical places near Dhaka"*---
-
-
-
-- **Search places near a city**### Prerequisites
-
-  - Example: *"Places to visit near Dhaka"*
-
-  - Example: *"Tourist spots around Sylhet"*## Architecture
-
-
-
-- **Get popular places**- Python 3.9 or higher
-
-  - Example: *"What are the most popular tourist destinations?"*
-
-  - Example: *"Show me top attractions"*### System Architecture- Supabase account and project
-
-
-
-### 🌤️ Weather Information- Google AI API key (for Gemini)
-
-
-
-- **Get current weather**```- OpenWeatherMap API key (optional, for weather features)
-
-  - Example: *"What's the weather in Dhaka?"*
-
-  - Example: *"Current temperature in Cox's Bazar"*User Request → FastAPI → LangChain Agent → Tool Selection → Data Fetching → LLM Response Formatting → User
-
-  - Example: *"Is it raining in Sylhet?"*
-
-                         ↓### Installation Steps
-
-### 📝 Booking Operations
-
-                    Google Gemini 2.0 Flash
-
-- **Create bookings**
-
-  - Example: *"Book package ID abc123 for 2 people, John Doe, john@email.com, +8801712345678"*                         ↓1. **Clone the repository**
-
-  - Example: *"Reserve this package for 4 guests"*
-
-                    Tools (LangChain)   ```bash
-
-### ⭐ User Favorites
-
-                    ├── search_hotels   cd gotravel-server
-
-- **View saved items**
-
-  - Example: *"What are my favorites?"*                    ├── search_packages   ```
-
-  - Example: *"Show my saved packages"*
-
-  - Example: *"What hotels have I bookmarked?"*                    ├── search_places
-
-
-
-### 💬 Conversational Features                    ├── get_weather2. **Create virtual environment**
-
-
-
-- **Context-aware conversations**                    └── create_booking   ```bash
-
-  - User: *"Show me hotels in Dhaka"*
-
-  - Bot: *"I found 10 hotels..."*                         ↓   python -m venv venv
-
-  - User: *"What about the prices?"* ← Remembers we're talking about Dhaka hotels
-
-                      Supabase Database   
-
-- **Multi-step queries**
-
-  - Example: *"What's the weather in Cox's Bazar and show me hotels there"*```   # Windows
-
-  - Example: *"Find beach packages under 15000 and check the weather"*
-
-   .\venv\Scripts\activate
-
-- **Follow-up questions**
-
-  - User: *"Show me packages to Sylhet"*### Request Flow   
-
-  - Bot: *"I found 5 packages..."*
-
-  - User: *"Which one is cheapest?"* ← Understands context   # Linux/Mac
-
-
-
----**Simple Query:**   source venv/bin/activate
-
-
-
-## 🛠️ Available Tools```   ```
-
-
-
-### Hotel Tools1. User sends: "Show me hotels in Dhaka"
-
-
-
-| Tool | Description |2. FastAPI receives POST /api/chat3. **Install dependencies**
-
-|------|-------------|
-
-| `search_hotels` | Search for hotels by city and country |3. Request validated via Pydantic models   ```bash
-
-| `get_hotel_rooms` | Get available rooms for a specific hotel with pricing |
-
-| `get_hotels_by_price` | Get hotels sorted by price (low to high or high to low) |4. Passed to TravelAgent.process_message()   pip install -r requirements.txt
-
-
-
-### Package Tools5. LangChain agent analyzes query   ```
-
-
-
-| Tool | Description |6. Agent selects search_hotels tool
-
-|------|-------------|
-
-| `search_packages` | Search packages by destination, category, price range, and duration |7. Tool calls database.search_hotels(city="Dhaka")4. **Configure environment variables**
-
-| `get_cheapest_packages` | Get the 5 most affordable travel packages |
-
-| `get_packages_by_price` | Get all packages sorted by price |8. Supabase returns hotel records   ```bash
-
-
-
-### Place Tools9. Tool formats results as JSON   # Copy the example file
-
-
-
-| Tool | Description |10. LLM generates natural language response   cp .env.example .env
-
-|------|-------------|
-
-| `search_places` | Search tourist places by location, category, or proximity |11. Response sent back through FastAPI   
-
-| `get_popular_places` | Get the most popular tourist destinations |
-
-12. User receives: "I found 10 hotels in Dhaka..."   # Edit .env with your actual credentials
-
-### User Tools
-
-```   ```
-
-| Tool | Description |
-
-|------|-------------|
-
-| `get_user_favorites` | Retrieve user's saved hotels, packages, and places |
-
----5. **Configure your .env file**
-
-### Utility Tools
-
-   ```env
-
-| Tool | Description |
-
-|------|-------------|## Technology Stack   # Supabase Configuration
-
-| `get_weather` | Get current weather information for any city |
-
-| `create_booking` | Create bookings for packages or hotels |   SUPABASE_URL=https://your-project.supabase.co
-
-
-
----### Core Technologies   SUPABASE_KEY=your-supabase-anon-key
-
-
-
-## 📊 Technology Stack   
-
-
-
-- **Backend Framework**: FastAPI 0.115.0- **Framework**: FastAPI 0.115.0 (High-performance async web framework)   # Google AI Configuration
-
-- **AI/LLM**: LangChain + Google Gemini 2.0 Flash
-
-- **Database**: Supabase (PostgreSQL)- **AI/ML**: LangChain + Google Gemini 2.0 Flash   GOOGLE_API_KEY=your-google-gemini-api-key
-
-- **Weather API**: OpenWeatherMap
-
-- **Language**: Python 3.13- **Database**: Supabase (PostgreSQL with real-time features)   
-
-
-
----- **External APIs**: OpenWeatherMap (Weather data)   # OpenWeatherMap API (optional)
-
-
-
-## 🚀 Quick Start- **Python**: 3.9+ with async/await support   OPENWEATHER_API_KEY=your-openweather-api-key
-
-
-
-```bash   
-
-# Install dependencies
-
-pip install -r requirements.txt### Key Dependencies   # Server Configuration
-
-
-
-# Configure environment variables   HOST=0.0.0.0
-
-cp .env.example .env
-
-# Edit .env with your API keys```   PORT=8000
-
-
-
-# Seed database with sample datafastapi==0.115.0   DEBUG=True
-
-python seed_data.py
-
-uvicorn[standard]==0.32.0   
-
-# Start server
-
-python main.pylangchain>=0.3.13   # CORS Settings
-
+graph TB
+    User[👤 User] -->|Natural Language Query| FastAPI[FastAPI Server]
+    FastAPI -->|Validate & Process| Agent[LangChain AI Agent]
+    Agent -->|Analyze Intent| Gemini[Google Gemini 2.0 Flash]
+    Gemini -->|Select Tools| Tools[Tool Selection Layer]
+    
+    Tools -->|Hotel Query| T1[search_hotels]
+    Tools -->|Package Query| T2[search_packages]
+    Tools -->|Place Query| T3[search_places]
+    Tools -->|Weather Query| T4[get_weather]
+    Tools -->|Booking Request| T5[create_booking]
+    Tools -->|Price Sort| T6[get_*_by_price]
+    
+    T1 & T2 & T3 & T5 & T6 -->|Fetch Data| Supabase[(Supabase Database)]
+    T4 -->|API Call| Weather[OpenWeatherMap API]
+    
+    Supabase -->|Return Data| Tools
+    Weather -->|Weather Info| Tools
+    Tools -->|Structured Data| Gemini
+    Gemini -->|Natural Response| Agent
+    Agent -->|Format Response| FastAPI
+    FastAPI -->|JSON Response| User
+    
+    style User fill:#e1f5ff
+    style Gemini fill:#fff3e0
+    style Supabase fill:#f3e5f5
+    style Weather fill:#e8f5e9
+    style FastAPI fill:#fce4ec
 ```
 
-langchain-google-genai>=2.0.5   ALLOWED_ORIGINS=http://localhost:3000,http://localhost:5173
+### How It Works
 
-**API Documentation**: http://localhost:8000/docs
-
-google-generativeai==0.8.3   ```
+1. **User Input** → User sends a natural language query (e.g., "Show me luxury hotels in Dhaka")
+2. **Request Processing** → FastAPI validates and routes the request to the AI agent
+3. **Intent Analysis** → Google Gemini 2.0 Flash analyzes the query and determines user intent
+4. **Tool Selection** → Agent selects appropriate tools (search_hotels, get_weather, etc.)
+5. **Data Fetching** → Tools retrieve data from Supabase or external APIs
+6. **Response Generation** → Gemini formats data into natural, conversational response
+7. **User Response** → FastAPI returns JSON with the AI's response and metadata
 
 ---
 
-supabase==2.10.0
+## 📁 Project Structure (MVC Pattern)
+
+```
+gotravel-server/
+├── src/                          # Main application code
+│   ├── config/
+│   │   ├── __init__.py
+│   │   └── settings.py           # Environment configuration
+│   ├── models/
+│   │   ├── __init__.py
+│   │   └── schemas.py            # Pydantic request/response models
+│   ├── routes/
+│   │   ├── __init__.py
+│   │   └── api.py                # API endpoints (controllers)
+│   ├── services/
+│   │   ├── __init__.py
+│   │   ├── agent.py              # LangChain AI agent
+│   │   ├── database.py           # Supabase client
+│   │   └── tools.py              # LangChain tools
+│   └── utils/
+│       ├── __init__.py
+│       └── helpers.py            # Helper functions
+├── supabase/
+│   └── migrations/               # Database schema
+├── main.py                       # FastAPI application entry
+├── requirements.txt              # Python dependencies
+├── render.yaml                   # Render deployment config
+└── API_DOCUMENTATION.txt         # Complete API docs
+```
+
+---
+
+## 🛠️ Available AI Tools
+
+The chatbot has access to 11 specialized tools for different tasks:
+
+### 1. Hotel Tools
+
+#### `search_hotels`
+Find hotels by location.
+
+**Example Query:** "Show me hotels in Dhaka"
+
+**Parameters:**
+```python
+city: str = "Dhaka"           # Optional: City name
+country: str = "Bangladesh"   # Optional: Country name
+```
+
+**What it returns:** Hotel name, location, rating, contact info, description
+
+---
+
+#### `get_hotel_rooms`
+Get available rooms for a specific hotel.
+
+**Example Query:** "What rooms are available at this hotel?"
+
+**Parameters:**
+```python
+hotel_id: str = "abc123..."   # Required: Hotel ID
+```
+
+**What it returns:** Room types, prices, capacity, amenities, availability
+
+---
+
+#### `get_hotels_by_price`
+Sort hotels by price range.
+
+**Example Query:** "Show me hotels from cheapest to most expensive"
+
+**Parameters:**
+```python
+city: str = "Dhaka"                    # Optional: Filter by city
+country: str = "Bangladesh"            # Optional: Filter by country
+sort_order: str = "low_to_high"        # "low_to_high" or "high_to_low"
+```
+
+**What it returns:** Hotels sorted by price
+
+---
+
+### 2. Package Tools
+
+#### `search_packages`
+Search for travel packages.
+
+**Example Query:** "Find 3-day beach packages under 10000 BDT"
+
+**Parameters:**
+```python
+destination: str = "Cox's Bazar"      # Optional: Destination name
+country: str = "Bangladesh"           # Optional: Country
+category: str = "beach"               # Optional: adventure, luxury, beach, cultural
+max_price: float = 10000.0            # Optional: Maximum price
+duration_days: int = 3                # Optional: Trip duration
+```
+
+**What it returns:** Package name, destination, price, duration, category, inclusions
+
+---
+
+#### `get_cheapest_packages`
+Find the most affordable packages.
+
+**Example Query:** "What are the cheapest travel packages?"
+
+**Parameters:** None
+
+**What it returns:** Top 5 budget-friendly packages
+
+---
+
+#### `get_packages_by_price`
+Sort packages by price.
+
+**Example Query:** "Show packages from low to high price"
+
+**Parameters:**
+```python
+sort_order: str = "low_to_high"       # "low_to_high" or "high_to_low"
+```
+
+**What it returns:** Packages sorted by price
+
+---
+
+### 3. Place Tools
+
+#### `search_places`
+Find tourist places and attractions.
+
+**Example Query:** "Show me beaches near Cox's Bazar"
+
+**Parameters:**
+```python
+country: str = "Bangladesh"           # Optional: Country
+city: str = "Cox's Bazar"             # Optional: City
+category: str = "beach"               # Optional: beach, mountain, historical, cultural
+near_city: str = "Chittagong"         # Optional: Places near this city
+```
+
+**What it returns:** Place name, location, category, rating, activities, best time to visit
+
+---
+
+#### `get_popular_places`
+Get the most popular tourist destinations.
+
+**Example Query:** "What are the top tourist places?"
+
+**Parameters:** None
+
+**What it returns:** Most visited and highly-rated places
+
+---
+
+### 4. Weather Tool
+
+#### `get_weather`
+Get current weather information.
+
+**Example Query:** "What's the weather in Dhaka?"
+
+**Parameters:**
+```python
+city: str = "Dhaka"                   # Required: City name
+```
+
+**What it returns:** Temperature, humidity, conditions, wind speed, weather description
+
+---
+
+### 5. Favorites Tool
+
+#### `get_user_favorites`
+Retrieve user's saved favorites.
+
+**Example Query:** "Show my favorite hotels"
+
+**Parameters:**
+```python
+user_id: str = "user123"              # Required: User ID
+item_type: str = "hotel"              # Optional: hotel, package, place
+```
+
+**What it returns:** List of user's favorited items
+
+---
+
+### 6. Booking Tool
+
+#### `create_booking`
+Create a new booking for packages or hotels.
+
+**Example Query:** "Book this package for 2 people, my name is John Doe"
+
+**Parameters:**
+```python
+booking_type: str = "package"         # Required: "package" or "hotel"
+item_id: str = "abc123..."            # Required: Package/Hotel ID
+guest_name: str = "John Doe"          # Required: Guest name
+guest_email: str = "john@example.com" # Required: Email
+guest_phone: str = "+8801712345678"   # Required: Phone
+total_participants: int = 2           # Optional: Number of people (default: 1)
+user_id: str = "user123"              # Optional: User ID
+```
+
+**What it returns:** Booking reference, total amount, booking status
+
+---
+
+## 💬 What the Chatbot Can Do
+
+### Hotel Queries
+- ✅ "Show me luxury hotels in Dhaka"
+- ✅ "Find 5-star hotels in Cox's Bazar"
+- ✅ "What are the cheapest hotels in Sylhet?"
+- ✅ "Show hotels with ratings above 4.5"
+- ✅ "What rooms are available at Pan Pacific Hotel?"
+
+### Package Queries
+- ✅ "Find beach packages under 15000 BDT"
+- ✅ "Show me 3-day adventure packages"
+- ✅ "What are the cheapest travel packages?"
+- ✅ "Find luxury packages to Sundarbans"
+- ✅ "Show cultural tour packages"
+
+### Place Queries
+- ✅ "What are the popular tourist places in Bangladesh?"
+- ✅ "Show me beaches near Chittagong"
+- ✅ "Find historical places in Dhaka"
+- ✅ "What places should I visit in Sylhet?"
+- ✅ "Show mountain destinations"
+
+### Weather Queries
+- ✅ "What's the weather in Cox's Bazar?"
+- ✅ "Is it raining in Dhaka?"
+- ✅ "What's the temperature in Sylhet?"
+- ✅ "How's the weather today in Chittagong?"
+
+### Booking Queries
+- ✅ "Book the Cox's Bazar beach package for 2 people"
+- ✅ "I want to reserve this hotel, my name is John, email john@mail.com"
+- ✅ "Create a booking for 4 participants"
+
+### Conversational
+- ✅ Maintains context across messages
+- ✅ Remembers previous queries in session
+- ✅ Asks clarifying questions
+- ✅ Provides recommendations based on conversation
+- ✅ Natural, friendly responses with emojis
+
+---
+
+## 🚀 Quick Start
+
+### Prerequisites
+- Python 3.11+
+- Supabase account
+- Google AI API key
+
+### Installation
+
+```bash
+# Clone repository
+git clone https://github.com/kaiumallimon/gotravel_server.git
+cd gotravel_server
+
+# Create virtual environment
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Set up environment variables
+cp .env.example .env
+# Edit .env with your API keys
+
+# Run the application
+uvicorn main:app --reload
+```
+
+### Test the API
+
+```bash
+# Health check
+curl http://localhost:8000/api/health
+
+# Chat with the AI
+curl -X POST "http://localhost:8000/api/chat" \
+  -H "Content-Type: application/json" \
+  -d '{"message": "Show me hotels in Dhaka", "session_id": "test"}'
+```
+
+### Access Documentation
+- **Swagger UI:** http://localhost:8000/docs
+- **ReDoc:** http://localhost:8000/redoc
+
+---
+
+## 🔧 Configuration
+
+Create a `.env` file with these variables:
+
+```env
+# Required
+SUPABASE_URL=your_supabase_project_url
+SUPABASE_KEY=your_supabase_anon_key
+GOOGLE_API_KEY=your_google_gemini_api_key
+
+# Optional
+OPENWEATHER_API_KEY=your_openweather_key
+DEBUG=true
+ALLOWED_ORIGINS=http://localhost:3000
+MODEL_NAME=gemini-2.0-flash
+TEMPERATURE=0.7
+MAX_TOKENS=2048
+```
+
+---
 
 ## 📡 API Endpoints
 
-pydantic==2.9.26. **Set up Supabase database**
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/health` | Health check |
+| POST | `/api/chat` | Chat with AI assistant |
+| POST | `/api/session/info` | Get session info |
+| POST | `/api/session/clear` | Clear session history |
+| POST | `/api/booking` | Create booking |
+| GET | `/docs` | Swagger UI |
+| GET | `/redoc` | ReDoc documentation |
 
-| Endpoint | Method | Purpose |
-
-|----------|--------|---------|```   - Run all SQL migrations in the `supabase/migrations/` directory
-
-| `/api/chat` | POST | Main conversational interface |
-
-| `/api/health` | GET | System health check |   - Ensure all tables are created properly
-
-| `/api/booking` | POST | Direct booking creation |
-
-| `/api/session/info` | POST | Get session information |---
-
-| `/api/session/clear` | POST | Clear conversation history |
-
-| `/docs` | GET | Interactive API documentation (Swagger) |7. **Run the server**
-
-| `/redoc` | GET | Alternative API documentation (ReDoc) |
-
-## Project Structure   ```bash
+For detailed API documentation with request/response examples, see [API_DOCUMENTATION.txt](./API_DOCUMENTATION.txt)
 
 ---
 
-   python main.py
+## 🚢 Deployment
 
-## 🔗 Example Chat Request
-
-```   ```
+### Deploy to Render (Recommended)
 
 ```bash
+# Push to GitHub
+git push origin main
 
-curl -X POST "http://localhost:8000/api/chat" \gotravel-server/
-
-  -H "Content-Type: application/json" \
-
-  -d '{├── main.py              # FastAPI application entry point   Or using uvicorn directly:
-
-    "message": "Show me hotels in Dhaka sorted by price",
-
-    "session_id": "user123"├── config.py            # Configuration and environment variables   ```bash
-
-  }'
-
-```├── database.py          # Supabase client and database operations   uvicorn main:app --reload --host 0.0.0.0 --port 8000
-
-
-
-**Response:**├── agent.py             # LangChain AI agent implementation   ```
-
-```json
-
-{├── tools.py             # LangChain tools for data fetching
-
-  "success": true,
-
-  "response": "I found 10 hotels in Dhaka sorted by price...",├── routes.py            # FastAPI route definitions## 📚 API Documentation
-
-  "session_id": "user123",
-
-  "tools_used": [├── models.py            # Pydantic models for requests/responses
-
-    {
-
-      "tool": "get_hotels_by_price",├── utils.py             # Utility functionsOnce the server is running, access the interactive API documentation:
-
-      "input": {"city": "Dhaka", "sort_order": "low_to_high"}
-
-    }├── test.py              # Test suite
-
-  ],
-
-  "message_count": 1,├── seed_data.py         # Database seeding script- **Swagger UI**: http://localhost:8000/docs
-
-  "timestamp": "2025-10-18T10:30:00"
-
-}├── requirements.txt     # Python dependencies- **ReDoc**: http://localhost:8000/redoc
-
+# Deploy on Render
+# 1. Go to render.com
+# 2. New Web Service → Connect repo
+# 3. Add environment variables
+# 4. Deploy!
 ```
 
-├── .env.example         # Environment variables template- **OpenAPI JSON**: http://localhost:8000/openapi.json
+See [RENDER_DEPLOYMENT.md](./RENDER_DEPLOYMENT.md) for detailed instructions.
 
 ---
 
-├── .gitignore          # Git ignore rules
+## 🔌 Technology Stack
 
-## 📝 License
-
-├── Dockerfile          # Docker configuration## 🔌 API Endpoints
-
-MIT License
-
-├── docker-compose.yml  # Docker Compose config
+- **Backend:** FastAPI, Uvicorn
+- **AI/ML:** LangChain, Google Gemini 2.0 Flash
+- **Database:** Supabase (PostgreSQL)
+- **APIs:** OpenWeatherMap
+- **Validation:** Pydantic
+- **Architecture:** MVC Pattern
 
 ---
 
-├── start.bat           # Windows startup script### Chat Endpoint
+## 📄 License
 
-**Built with ❤️ using FastAPI, LangChain, Google Gemini, and Supabase**
-
-├── start.sh            # Linux/Mac startup script```http
-
-└── supabase/           # Database migrationsPOST /api/chat
-
-    └── migrations/Content-Type: application/json
-
-        ├── users.sql
-
-        ├── hotels.sql{
-
-        ├── packages.sql  "message": "Show me luxury hotels in Dhaka",
-
-        └── ...  "session_id": "optional_session_id",
-
-```  "user_id": "optional_user_id"
-
-}
-
----```
-
-
-
-## Setup & Installation**Response:**
-
-```json
-
-### Prerequisites{
-
-  "success": true,
-
-- [ ] Python 3.9 or higher  "response": "I found 5 luxury hotels in Dhaka...",
-
-- [ ] Supabase account ([Create one here](https://supabase.com))  "session_id": "session_abc123",
-
-- [ ] Google AI API key ([Get it here](https://makersuite.google.com/app/apikey))  "tools_used": [
-
-- [ ] OpenWeatherMap API key (Optional - [Get it here](https://openweathermap.org/api))    {
-
-      "tool": "search_hotels",
-
-### Step 1: Prepare Supabase Database      "input": {"city": "Dhaka", "min_rating": 4.0}
-
-    }
-
-1. Create a Supabase project at [supabase.com](https://supabase.com)  ],
-
-2. Run all migration files in the `supabase/migrations/` directory  "message_count": 2,
-
-3. Copy your Project URL and anon key from Settings → API  "timestamp": "2025-10-18T10:30:00"
-
-}
-
-### Step 2: Install Dependencies```
-
-
-
-**Windows:**### Health Check
-
-```powershell```http
-
-python -m venv venvGET /api/health
-
-.\venv\Scripts\activate```
-
-pip install -r requirements.txt
-
-```### Session Management
-
-```http
-
-**Linux/Mac:**POST /api/session/info
-
-```bashPOST /api/session/clear
-
-python3 -m venv venv```
-
-source venv/bin/activate
-
-pip install -r requirements.txt### Direct Booking
-
-``````http
-
-POST /api/booking
-
-### Step 3: Configure EnvironmentContent-Type: application/json
-
-
-
-```bash{
-
-# Copy example file  "booking_type": "package",
-
-cp .env.example .env  "item_id": "package-uuid",
-
-  "guest_name": "John Doe",
-
-# Edit .env with your credentials  "guest_email": "john@example.com",
-
-```  "guest_phone": "+8801712345678",
-
-  "total_participants": 2
-
-**.env file:**}
-
-```env```
-
-# Supabase Configuration
-
-SUPABASE_URL=https://yourproject.supabase.co## 💬 Example Conversations
-
-SUPABASE_KEY=your_supabase_anon_key
-
-### Hotel Search
-
-# Google AI Configuration```
-
-GOOGLE_API_KEY=your_google_gemini_api_keyUser: "Show me hotels in Dhaka"
-
-AI: I found 10 hotels in Dhaka. Here are the top options:
-
-# OpenWeatherMap API (Optional)
-
-OPENWEATHER_API_KEY=your_openweather_api_key1. **Radisson Blu**
-
-   📍 Dhaka, Bangladesh
-
-# Server Configuration   ⭐ Rating: 4.5/5.0
-
-HOST=0.0.0.0
-
-PORT=80002. **Pan Pacific Sonargaon**
-
-DEBUG=True   📍 Dhaka, Bangladesh
-
-   ⭐ Rating: 4.3/5.0
-
-# CORS Settings...
-
-ALLOWED_ORIGINS=http://localhost:3000,http://localhost:5173```
-
-```
-
-### Package Discovery
-
-### Step 4: Seed Database (Optional)```
-
-User: "Find me luxury travel packages under 30000 BDT"
-
-Add sample data for testing:AI: I found 5 luxury packages within your budget:
-
-```bash
-
-python seed_data.py1. **Cox's Bazar Beach Resort**
-
-```   📍 Cox's Bazar
-
-   ⏱️ 3 days
-
-### Step 5: Start the Server   💰 ৳25,000
-
-...
-
-```bash```
-
-# Option 1: Direct
-
-python main.py### Weather Query
-
-```
-
-# Option 2: With reloadUser: "What's the weather in Dhaka?"
-
-uvicorn main:app --reload --host 0.0.0.0 --port 8000AI: The current weather in Dhaka, Bangladesh:
-
-🌤️ Temperature: 28°C (feels like 32°C)
-
-# Option 3: Quick start script💧 Humidity: 75%
-
-./start.sh  # Linux/Mac🌬️ Wind: 12 km/h
-
-start.bat   # Windows☁️ Conditions: Partly cloudy
-
-``````
-
-
-
-### Step 6: Verify Installation### Booking
-
-```
-
-Visit these URLs:User: "Book the Cox's Bazar package for 2 people. My name is John Doe, email john@example.com, phone 01712345678"
-
-- http://localhost:8000 - Root endpointAI: Perfect! I've created your booking:
-
-- http://localhost:8000/docs - Interactive API docs
-
-- http://localhost:8000/api/health - Health check✅ Booking Reference: BK12345678
-
-📦 Package: Cox's Bazar Beach Resort
-
-Test with curl:👥 Participants: 2
-
-```bash💰 Total: ৳50,000
-
-curl -X POST "http://localhost:8000/api/chat" \📧 Confirmation sent to: john@example.com
-
-  -H "Content-Type: application/json" \```
-
-  -d '{"message": "Hello!"}'
-
-```## 🛠️ Available Tools
-
-
-
----The AI agent has access to these tools:
-
-
-
-## Configuration1. **search_hotels** - Search hotels by location and rating
-
-2. **get_hotel_rooms** - Get available rooms for a specific hotel
-
-### Environment Variables3. **search_packages** - Search travel packages by various criteria
-
-4. **get_cheapest_packages** - Find the most affordable packages
-
-```env5. **search_places** - Discover tourist attractions and destinations
-
-# Supabase6. **get_popular_places** - Get most popular tourist places
-
-SUPABASE_URL=https://your-project.supabase.co7. **get_weather** - Fetch real-time weather information
-
-SUPABASE_KEY=your-supabase-anon-key8. **create_booking** - Create bookings for packages or hotels
-
-
-
-# Google AI## 🔧 Configuration
-
-GOOGLE_API_KEY=your-google-gemini-api-key
-
-### Model Configuration
-
-# Weather (Optional)Edit `config.py` to change AI model settings:
-
-OPENWEATHER_API_KEY=your-openweather-key```python
-
-model_name: str = "gemini-2.0-flash"
-
-# Servertemperature: float = 0.7
-
-HOST=0.0.0.0max_tokens: int = 2048
-
-PORT=8000```
-
-DEBUG=True
-
-### CORS Configuration
-
-# AI ModelUpdate allowed origins in `.env`:
-
-MODEL_NAME=gemini-2.0-flash```env
-
-TEMPERATURE=0.7ALLOWED_ORIGINS=http://localhost:3000,http://localhost:5173,https://yourdomain.com
-
-MAX_TOKENS=2048```
-
-
-
-# CORS## 🧪 Testing
-
-ALLOWED_ORIGINS=http://localhost:3000
-
-```Test the agent directly:
-
-```bash
-
----python agent.py
-
-```
-
-## API Documentation
-
-Test individual tools:
-
-### Interactive Docs```bash
-
-python tools.py
-
-- **Swagger UI**: http://localhost:8000/docs```
-
-- **ReDoc**: http://localhost:8000/redoc
-
-## 📊 Database Schema
-
-### Main Endpoints
-
-Key tables:
-
-| Endpoint | Method | Purpose |- **users** - User accounts
-
-|----------|--------|---------|- **hotels** - Hotel listings with location and ratings
-
-| `/api/chat` | POST | Main conversational interface |- **rooms** - Hotel room types and availability
-
-| `/api/health` | GET | System health check |- **packages** - Travel packages with pricing and itineraries
-
-| `/api/session/info` | POST | Get session information |- **places** - Tourist destinations and attractions
-
-| `/api/session/clear` | POST | Clear chat history |- **bookings** - Booking records
-
-| `/api/booking` | POST | Direct booking creation |- **reviews** - User reviews and ratings
-
-
-
-### Chat Endpoint## 🚀 Deployment
-
-
-
-**Request:**### Using Docker (Recommended)
-
-```json```dockerfile
-
-{FROM python:3.9-slim
-
-  "message": "Show me hotels in Dhaka",WORKDIR /app
-
-  "session_id": "optional_session_id"COPY requirements.txt .
-
-}RUN pip install -r requirements.txt
-
-```COPY . .
-
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
-
-**Response:**```
-
-```json
-
-{### Using Cloud Platforms
-
-  "success": true,- **Heroku**: Use `Procfile` with `web: uvicorn main:app --host=0.0.0.0 --port=${PORT}`
-
-  "response": "I found 5 hotels in Dhaka...",- **Railway**: Automatic Python app detection
-
-  "session_id": "session_abc123",- **AWS/GCP/Azure**: Deploy as container or using platform-specific Python runtime
-
-  "tools_used": [
-
-    {"tool": "search_hotels", "input": {"city": "Dhaka"}}## 🐛 Troubleshooting
-
-  ],
-
-  "message_count": 2,### Import Errors
-
-  "timestamp": "2025-10-18T10:30:00"```bash
-
-}# Reinstall dependencies
-
-```pip install -r requirements.txt --force-reinstall
-
-```
+This project is licensed under the MIT License.
 
 ---
 
-### Database Connection Issues
+## 🤝 Contributing
 
-## Usage Examples- Verify SUPABASE_URL and SUPABASE_KEY in `.env`
-
-- Check Supabase project status
-
-### Basic Queries- Ensure database migrations are applied
-
-
-
-```bash### AI Model Errors
-
-# Hotel Search- Verify GOOGLE_API_KEY is valid
-
-curl -X POST "http://localhost:8000/api/chat" \- Check API quota and rate limits
-
-  -H "Content-Type: application/json" \- Ensure model name is correct: "gemini-2.0-flash"
-
-  -d '{"message": "Show me hotels in Dhaka"}'
-
-## 📝 License
-
-# Package Search
-
-curl -X POST "http://localhost:8000/api/chat" \MIT License - Feel free to use this project for your own purposes.
-
-  -H "Content-Type: application/json" \
-
-  -d '{"message": "Find beach packages under 10000 BDT"}'## 🤝 Contributing
-
-
-
-# WeatherContributions are welcome! Please feel free to submit a Pull Request.
-
-curl -X POST "http://localhost:8000/api/chat" \
-
-  -H "Content-Type: application/json" \## 📧 Support
-
-  -d '{"message": "What is the weather in Cox'\''s Bazar?"}'
-
-```For issues and questions, please open an issue on the repository.
-
-
-
-### Python Client---
-
-
-
-```python**Built with ❤️ using FastAPI, LangChain, and Google Gemini**
-
-import requests
-
-class GoTravelClient:
-    def __init__(self, base_url="http://localhost:8000"):
-        self.base_url = base_url
-        self.session_id = None
-    
-    def chat(self, message):
-        response = requests.post(
-            f"{self.base_url}/api/chat",
-            json={"message": message, "session_id": self.session_id}
-        )
-        data = response.json()
-        
-        if not self.session_id:
-            self.session_id = data.get("session_id")
-        
-        return data.get("response")
-
-# Usage
-client = GoTravelClient()
-print(client.chat("Show me hotels in Dhaka"))
-print(client.chat("What about the prices?"))  # Maintains context
-```
-
-### JavaScript Client
-
-```javascript
-class GoTravelClient {
-  constructor(baseUrl = 'http://localhost:8000') {
-    this.baseUrl = baseUrl;
-    this.sessionId = null;
-  }
-
-  async chat(message) {
-    const response = await fetch(`${this.baseUrl}/api/chat`, {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
-        message,
-        session_id: this.sessionId
-      })
-    });
-
-    const data = await response.json();
-    if (!this.sessionId) this.sessionId = data.session_id;
-    return data.response;
-  }
-}
-
-// Usage
-const client = new GoTravelClient();
-const response = await client.chat('Show me hotels in Dhaka');
-console.log(response);
-```
+Contributions are welcome! Please feel free to submit a Pull Request.
 
 ---
 
-## Available Tools
+## 📧 Support
 
-| Tool | Purpose | Parameters |
-|------|---------|------------|
-| `search_hotels` | Search for hotels | city, country |
-| `get_hotel_rooms` | Get room info | hotel_id |
-| `search_packages` | Search packages | destination, category, max_price, duration_days |
-| `get_cheapest_packages` | Get budget packages | - |
-| `get_packages_by_price` | Sort packages by price | sort_order |
-| `search_places` | Search tourist places | country, city, category, near_city |
-| `get_popular_places` | Get popular destinations | - |
-| `get_weather` | Get weather info | city |
-| `create_booking` | Create a booking | booking_type, item_id, guest_info |
-
-### Sample Queries
-
-**Hotels:**
-- "Show me hotels in Dhaka"
-- "Find hotels in Cox's Bazar"
-
-**Packages:**
-- "Show me travel packages to Sylhet"
-- "Find adventure packages"
-- "What are the cheapest packages?"
-- "Sort packages by price"
-
-**Places:**
-- "Popular tourist places in Bangladesh"
-- "Show me beaches"
-- "Historical places in Dhaka"
-
-**Weather:**
-- "What's the weather in Dhaka?"
-
-**Bookings:**
-- "Book package for 2 people, John Doe, john@example.com, +8801712345678"
+For questions or issues, please open an issue on GitHub.
 
 ---
 
-## Database Schema
-
-### Key Tables
-
-```
-users           → User accounts
-hotels          → Hotel listings
-rooms           → Hotel room types
-packages        → Travel packages
-places          → Tourist destinations
-bookings        → Booking records
-reviews         → User reviews
-conversations   → Chat history
-search_history  → Search logs
-```
-
----
-
-## Deployment
-
-### Using Docker
-
-```bash
-# Build
-docker build -t gotravel-backend .
-
-# Run
-docker run -p 8000:8000 --env-file .env gotravel-backend
-
-# Docker Compose
-docker-compose up -d
-```
-
-### Cloud Platforms
-
-**Heroku:**
-```bash
-echo "web: uvicorn main:app --host=0.0.0.0 --port=\${PORT}" > Procfile
-heroku create your-app-name
-git push heroku main
-```
-
-**Railway / Render:**
-- Connect GitHub repository
-- Set environment variables
-- Automatic deployment
-
----
-
-## Troubleshooting
-
-### Common Issues
-
-**Import Errors:**
-```bash
-pip install -r requirements.txt --force-reinstall
-```
-
-**Database Connection Failed:**
-- Verify SUPABASE_URL and SUPABASE_KEY
-- Check if migrations are applied
-- Test in Supabase dashboard
-
-**API Key Invalid:**
-- Verify Google API key is correct
-- Check for extra spaces in .env
-- Generate new API key if needed
-
-**Port in Use:**
-```bash
-# Windows
-taskkill /PID <PID> /F
-
-# Linux/Mac
-lsof -ti:8000 | xargs kill -9
-```
-
-**CORS Errors:**
-```env
-ALLOWED_ORIGINS=http://localhost:3000,https://yourdomain.com
-```
-
----
-
-## Quick Reference
-
-### Quick Start
-
-```bash
-# Setup
-python -m venv venv
-source venv/bin/activate  # Linux/Mac
-.\venv\Scripts\activate   # Windows
-pip install -r requirements.txt
-cp .env.example .env
-
-# Run
-python main.py
-
-# Test
-python test.py
-```
-
-### Essential Endpoints
-
-```bash
-POST /api/chat         # Main chat
-GET /api/health        # Health check
-GET /docs              # API documentation
-```
-
-### Add New Tool
-
-```python
-from langchain.tools import tool
-
-@tool
-def my_tool(param: str) -> str:
-    """Tool description"""
-    result = database.query(param)
-    return json.dumps({"success": True, "data": result})
-
-# Add to tools list
-tools = [..., my_tool]
-```
-
----
-
-## Contributing
-
-Contributions welcome! Please:
-
-1. Fork the repository
-2. Create a feature branch
-3. Commit your changes
-4. Push to the branch
-5. Open a Pull Request
-
----
-
-## License
-
-MIT License - Feel free to use for your own purposes.
-
----
-
-## Support
-
-- Open an issue on GitHub
-- Check documentation
-- Review troubleshooting section
-
----
-
-## Credits
-
-Built with ❤️ using:
-- FastAPI
-- LangChain
-- Google Gemini
-- Supabase
-
----
-
-**🌍 Happy Travels! ✈️**
+**Built with ❤️ for travelers around the world** 🌏✈️
